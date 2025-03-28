@@ -1,0 +1,155 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Full-Screen Background with Animation */
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    animation: bgMove 10s infinite alternate;
+}
+
+@keyframes bgMove {
+    0% { background-position: left top; }
+    100% { background-position: right bottom; }
+}
+
+/* Floating Form Container */
+.container {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 400px;
+    backdrop-filter: blur(15px);
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.container:hover {
+    transform: scale(1.03);
+}
+
+/* Heading */
+h2 {
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Input Fields */
+.input-field {
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    outline: none;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.input-field::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+}
+
+.input-field:focus {
+    border: 2px solid white;
+    box-shadow: 0 0 10px white;
+}
+
+/* Buttons */
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: "";
+    position: absolute;
+    width: 300%;
+    height: 300%;
+    top: -100%;
+    left: -100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #764ba2, #667eea);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+/* Floating Effect */
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
+
+.container {
+    animation: float 3s infinite;
+}
+
+/* Error & Success Messages */
+.error, .success {
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.error {
+    color: #ff4d4d;
+}
+
+.success {
+    color: #28a745;
+}
+
+/* Responsive Design */
+@media (max-width: 450px) {
+    .container {
+        width: 90%;
+    }
+}
