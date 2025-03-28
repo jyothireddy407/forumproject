@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background"></div>
+    <header>
+        <h1>Welcome to the Forum</h1>
+        <nav>
+            <a href="login.php" class="btn">Login</a>
+            <a href="register.php" class="btn primary">Register</a>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <h2 id="hero-text">Join the Conversation</h2>
+            <p>Engage in meaningful discussions, ask questions, and share your thoughts with a community of like-minded individuals.</p>
+            <a href="register.php" class="btn primary">Get Started</a>
+        </section>
+        <section id="posts" class="posts">
+            <h3>Latest Discussions</h3>
+            <div id="post-list">
+                <p>Loading posts...</p>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>© 2025 Forum. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Animated hero text
+            const texts = ["Join the Conversation", "Ask Questions", "Share Your Thoughts", "Engage with Community"];
+            let index = 0;
+            setInterval(() => {
+                document.getElementById("hero-text").textContent = texts[index];
+                index = (index + 1) % texts.length;
+            }, 3000);
+    
+            // Fetch latest posts with a timestamp to prevent caching
+            function fetchLatestPosts() {
+                fetch("fetch_posts.php?t=" + new Date().getTime())
+                    .then(response => response.json())
+                    .then(data => {
+                        const postList = document.getElementById("post-list");
+                        postList.innerHTML = "";
+                        if (data.length === 0) {
+                            postList.innerHTML = "<p>No posts yet. Be the first to start a discussion!</p>";
+                        } else {
+                            // Limit to top 3 posts
+                            const topThreePosts = data.slice(0, 3);
+                            topThreePosts.forEach(post => {
+                                const postElement = document.createElement("div");
+                                postElement.classList.add("post-item");
+                                postElement.innerHTML = `<h4><a href="view_post.php?id=${post.id}">${post.title}</a></h4><p>${post.content.substring(0, 100)}...</p>`;
+                                postList.appendChild(postElement);
+                            });
+                        }
+                    })
+                    .catch(error => console.error("Error fetching posts:", error));
+            }
+    
+            // Fetch posts every 5 seconds to keep discussions updated
+            fetchLatestPosts();
+            setInterval(fetchLatestPosts, 5000);
+        });
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('background.jpg') no-repeat center center/cover;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 10%;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 600;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .primary {
+            background: #ff7b00;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(255, 123, 0, 0.4);
+        }
+
+        .hero {
+            margin: 50px auto;
+            max-width: 600px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        h2 {
+            font-size: 2.2em;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .posts {
+            margin: 50px auto;
+            width: 80%;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+        }
+
+        .posts:hover {
+            transform: scale(1.02);
+        }
+
+        .post-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+
+        .post-item a {
+            color: #ff7b00;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .post-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</body>
+</html>
